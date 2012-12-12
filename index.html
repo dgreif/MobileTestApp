@@ -1,15 +1,349 @@
+
+
 <!DOCTYPE html>
-<html>
-    <head>
-        <title>Test Page</title>
-        <script>
-            function bam() {
-                alert(document.getElementById("txtTest").value);
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>Home Page - Keeper Corner</title>
+    <link href="/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+    <link href="./Content/css.css" rel="stylesheet"/>
+
+    <script src="./Scripts/script.js"></script>
+
+    <meta name="viewport" content="width=device-width" />
+    
+    
+    <link href="./Content/Extras/RoyalSlider.css" rel="stylesheet"/>
+
+    <script src="./Scripts/Extras/RoyalSlider.js"></script>
+
+    <script>
+        jQuery(document).ready(function ($) {
+            $('#slider').royalSlider({
+                arrowsNav: true,
+                loop: true,
+                keyboardNavEnabled: true,
+                controlsInside: true,
+                imageAlignCenter: false,
+                imageScaleMode: 'none',
+                arrowsNavAutoHide: false,
+                autoScaleSlider: false,
+                controlNavigation: 'bullets',
+                navigateByClick: true,
+                startSlideId: 0,
+                autoPlay: {
+                    // autoplay options go gere
+                    enabled: true,
+                    pauseOnHover: true,
+                    delay: 4000
+                },
+                transitionType: 'move',
+                autoScaleHeight: false
+            });
+        });
+    </script>
+
+    <style type="text/css">
+        #slideshow {
+            margin: auto;
+            width: 660px;
+        }
+
+        #slider {
+            background: #DFEFFC center;
+            border: none;
+            height: 300px;
+            width: 660px;
+            margin: auto;
+            cursor: pointer;
+            display: block;
+            overflow: hidden;
+        }
+
+        #back {
+            border: none;
+            display: inline-block;
+            position: relative;
+            height: 300px;
+            width: 50px;
+            cursor: pointer;
+            background: url(".../images/slideshow/back.png") no-repeat center;
+        }
+
+
+        #forward {
+            border: none;
+            position: relative;
+            height: 300px;
+            width: 50px;
+            display: inline-block;
+            cursor: pointer;
+            background: url(".../images/slideshow/forward.png") no-repeat center;
+        }
+
+        #dotnav {
+            margin: auto;
+            width: 40px;
+        }
+
+        .dotli {
+            border-radius: 5px;
+            width: 10px;
+            height: 10px;
+            background: #E0E1E3;
+            list-style: none;
+            display: inline-block;
+            webkit-box-shadow: inset 0 2px 2px rgba(0, 0, 0, .25);
+            -moz-box-shadow: inset 0 2px 2px rgba(0, 0, 0, .25);
+            box-shadow: inset 0 2px 2px rgba(0, 0, 0, .25);
+            cursor: pointer;
+        }
+
+            .dotli:hover {
+                webkit-box-shadow: inset 0 -2px 2px rgba(0, 0, 0, .25);
+                -moz-box-shadow: inset 0 -2px 2px rgba(0, 0, 0, .25);
+                box-shadow: inset 0 -2px 2px rgba(0, 0, 0, .25);
             }
-        </script>
-    </head>
-    <body>
-        <input type="text" id="txtTest" />
-        <input type="button" id="btnTest" onclick="bam()" value="Test" />
-    </body>
+
+            .dotli:active {
+                background-color: #5C9CCC;
+                webkit-box-shadow: inset 0 2px 2px rgba(0, 0, 0, .25);
+                -moz-box-shadow: inset 0 2px 2px rgba(0, 0, 0, .25);
+                box-shadow: inset 0 2px 2px rgba(0, 0, 0, .25);
+                cursor: pointer;
+            }
+
+
+        #nav {
+            top: -316px;
+        }
+
+        #head-content {
+            padding: 15px 0 15px 0;
+            margin: auto;
+        }
+
+        .prem-ult {
+            padding: 10px;
+            width: 49.7%;
+            display: inline-block !important;
+            box-sizing: border-box;
+            -moz-box-sizing: border-box;
+            -webkit-box-sizing: border-box;
+        }
+
+        .fltright {
+            float: right;
+        }
+        
+
+        @media only screen and (min-width: 851px) {
+            .content-wrapper {
+                width: 850px;
+            }
+        }
+
+        @media only screen and (max-width: 850px) {
+            #head-content {
+                padding-left: 0px;
+                padding-right: 0px;
+            }
+
+            .prem-ult {
+                float: none !important;
+                width: auto;
+                display: block !important;
+                margin-bottom: 20px;
+            }
+
+            .fltright {
+                float: none !important;
+            }
+
+           
+        }
+
+        @media only screen and (max-width: 670px) {
+            #head-content {
+                padding: 0px;
+            }
+
+            #slider {
+                display: none;
+            }
+        }
+    </style>
+
+
+</head>
+<body>
+    <input type="hidden" id="UserID" value="1" />
+    <header class="clear-fix header">
+        <div class="content-wrapper header">
+            <div class="float-left logo">
+                <a href="/" class="image-link logo">
+                    <img src="./images/logo.svg"/></a>
+            </div>
+            <div class="float-right">
+                <section id="login">
+                        
+        Hello, <a class="username" href="/Account/MyAccount" title="My&#32;Account">Dusty</a> |
+        <a class="link-button" href="/Account/LogOff">Log off</a>
+    
+
+                </section>
+            </div>
+        </div>
+        
+    </header>
+    <div id="bodyHead" class="">
+        <div class="content-wrapper">
+            
+    <div id="head-content" class="logged-in">
+
+
+    <div id="slider" class="royalSlider rsMinW">
+        <a href="./Account/Register" style="padding: 0; margin: 0;">
+            <img src="./images/slideshow/slide1.png" class="sliderimage rsImg" /></a>
+        <a href="./Account/Register" style="padding: 0; margin: 0;">
+            <img src="./images/slideshow/slide2.png" class="sliderimage rsImg" /></a>
+        <a href="./Account/Register" style="padding: 0; margin: 0;">
+            <img src="./images/slideshow/slide3.png" class="sliderimage rsImg" /></a>
+        <a href="./Account/Register" style="padding: 0; margin: 0;">
+            <img src="./images/slideshow/slide4.png" class="sliderimage rsImg" /></a>
+    </div>
+    </div>
+
+        </div>
+    </div>
+    <div id="body" class="content-wrapper">
+        <div id="mainBody" class="">
+            
+
+<div id="navHolder">
+    <div id="nav" class="logged-in">
+            
+            <ul>
+                <li>
+                    <a href="./Contacts/">
+                        <img src="./images/smallicons/contacts.svg" class="navicon"/>
+                        <span>Contacts</span></a>
+                </li>
+                <li>
+                    <a href="./Calendar/">
+                        <img src="./images/smallicons/calendar.svg" class="navicon"/>
+                        <span>Calendar</span></a>
+                </li>
+                <li>
+                    <a href="./Tasks/">
+                        <img src="./images/smallicons/task.svg" class="navicon"/>
+                        <span>Tasks</span></a>
+                </li>
+                <li>More Soon...</li>
+            </ul>
+            
+    </div>
+    <div class="navtab">
+        <div class="navtab_text">Keepers</div>
+    </div>
+</div>
+
+<div id="main" class="logged-in">
+    <div style="line-height: 0; outline: none;" id="focusStart" tabindex="-1"></div>
+    
+<!--
+<div>
+
+    <fieldset class="fieldset-override fieldset-index">
+        <legend>Keeper Corner FREE</legend>
+        Keeper Corner Free edition includes:
+    <ul>
+        <li>Access to 30 different keepers</li>
+        <li>2 GB of storage for photos and documents</li>
+    </ul>
+<form action="/account/register" method="get">            <input type="hidden" name="package" value="free" />
+            <input type="submit" value="Get FREE Now" />
+</form>    </fieldset>
+    <br />
+
+
+    <fieldset class="fieldset-override fieldset-index prem-ult" >
+        <legend>Keeper Corner Premium</legend>
+        Keeper Corner Premium edition includes:
+    <ul>
+        <li>Access to 30 different keepers</li>
+        <li>5 GB of storage for photos and documents </li>
+        <li>Ad free</li>
+    </ul>
+<form action="/account/register" method="get">            <input type="hidden" name="package" value="premium" />
+            <input type="submit" value="Get Premium Now" />
+</form>    </fieldset>
+
+
+    <fieldset class="fieldset-override fieldset-index prem-ult ">
+        <legend>Keeper Corner Ultimate</legend>
+        Keeper Corner Ultimate edition includes:
+    <ul>
+        <li>Access to 30 different keepers</li>
+        <li>10 GB of storage for photos and documents </li>
+        <li>Ad free</li>
+    </ul>
+<form action="/account/register" method="get">            <input type="hidden" name="package" value="ultimage" />
+            <input type="submit" value="Get Ultimate Now" />
+</form>    </fieldset>
+
+</div>
+-->
+
+   <fieldset class="fieldset-override fieldset-index">
+        <legend>Keeper Corner is Under Construction</legend>
+        <b>Keeper Corner</b> is currently <b>UNDER CONSTRUCTION.</b>  
+       <p />
+        Requirements prior to release:
+    <ul>
+        <li>Enhanced security</li>
+        <li>Redundancy</li>
+        <li>Minimum 8 Keepers <br />
+            (Calendar, Contacts, Tasks, I Owe You, Auto, Gift, Document/Photo, and Special Dates) </li>
+        <li>Help Pages</li>
+    </ul>
+       You are welcome to use Keeper Corner prior to final release, just understand there is a possibility of losing your data.  
+<form action="/account/register" method="get">            <center><input type="hidden" name="package" value="free" />
+            <input type="submit" value="Get FREE Now" /></center>
+</form>    </fieldset>
+</div>
+
+        </div>
+    </div>
+    <div id="bodyFooter">
+        <div class="content-wrapper">
+            
+    
+
+        </div>
+    </div>
+    <footer>
+        <div class="content-wrapper">
+            <div class="float-left">
+                <p>&copy; 2012 - Keeper Corner, Inc.</p>
+                <a href="/Home/About">About</a>|<a href="/Home/Contact">Contact</a>
+            </div>
+            <div class="float-right">
+                <ul id="social">
+                    <li><a href="http://www.facebook.com/KeeperCorner" class="facebook image-link" target="_blank">
+                        Facebook</a></li>
+                    <li><a href="https://twitter.com/#!/KeeperCorner" class="twitter image-link" target="_blank">
+                        Twitter</a></li>
+                    <li>
+                        <iframe src="http://www.facebook.com/plugins/like.php?href=http%3A%2F%2Fwww.facebook.com%2FKeeperCorner&amp;send=false&amp;layout=button_count&amp;width=450&amp;show_faces=false&amp;action=like&amp;colorscheme=light&amp;font&amp;height=21"
+                            scrolling="no" frameborder="0" style="border: none; overflow: hidden; width: 45px;
+                            height: 21px;"
+                            allowtransparency="true"></iframe>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </footer>
+</body>
 </html>

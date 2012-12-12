@@ -1,0 +1,533 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>Tasks - Keeper Corner</title>
+    <link href="/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+    <link href="../Content/css.css" rel="stylesheet"/>
+
+    <script src="../Scripts/script.js"></script>
+
+    <meta name="viewport" content="width=device-width" />
+</head>
+<body>
+    <input type="hidden" id="UserID" value="1" />
+    <header class="clear-fix header">
+        <div class="content-wrapper header">
+            <div class="float-left logo">
+                <a href="/" class="image-link logo">
+                    <img src="../Images/logo.svg"/></a>
+            </div>
+            <div class="float-right">
+                <section id="login">
+                        
+        Hello, <a class="username" href="/Account/MyAccount" title="My&#32;Account">Dusty</a> |
+        <a class="link-button" href="/Account/LogOff">Log off</a>
+    
+
+                </section>
+            </div>
+        </div>
+        
+    </header>
+    <div id="bodyHead" class="javascript-required">
+        <div class="content-wrapper">
+            
+    <div id="head-content" class="logged-in">
+
+    
+    <div id="keeperHeader">
+        <hgroup class="title">
+            <h2>
+                <img style="vertical-align:middle; width:40px; height:40px;" src="../Images/smallicons/task.svg" />
+                <span style="vertical-align: middle">Tasks <span class="largeDisplayOnly">Keeper</span></span>
+            </h2>
+        </hgroup>
+        <input type="hidden" id="keeperID" value="3" />
+    </div>
+
+    <div id="controlBox" class="float-right">
+        
+        <input type="button" data-show-popup="Share" value="Share" data-bind="visible: viewingUserID() == currentUserID" />
+        <select id="shareSelect" data-bind="options: $root.shareContacts(), optionsText: 'Name', optionsValue: 'ID', value: $root.viewingUserID">
+        </select>
+    </div>
+    <div style="clear: both;"></div>
+    <!-- Popups -->
+    <div id="sharePopup" data-popup="Share" data-dialog-title="Share">
+        <form id="formCreateShare" data-bind="submit: createKeeperShare, visible: viewingUserID() == currentUserID">
+<fieldset>
+    <legend>Create Share</legend>
+
+    Contact:
+    <select name="selectedUserID" data-bind="options: $root.linkedContacts(), optionsText: 'Name', optionsValue: 'ID', value: selectedLinkedContactUserID, optionsCaption: 'Choose a Contact...'">
+    </select>
+
+    <!-- ko if: $root.selectedLinkedContactUserID() != undefined && $root.keeperShareLoaded() && keeperShare() -->
+    <br />
+
+    <!-- ko template: {name:'shareSwitch-template', data: $root.keeperShare()} -->
+    <!-- /ko -->
+
+    
+    <ul class="shareList" data-bind="template: {name: 'shareList-template', foreach: $root.keeperShare().Categories}">
+    </ul>
+
+    <input type="submit" value="Share" />
+    <!-- /ko -->
+    <input type="button" class="close" value="Cancel" />
+    <br />
+    <img src="../Images/largeicons/loading.gif" data-bind="visible: $root.selectedLinkedContactUserID() != undefined && !$root.keeperShareLoaded()" />
+</fieldset>
+</form>
+
+<script type="text/html" id="shareList-template">
+    <li>
+        <!-- ko template: {name:'shareSwitch-template'} -->
+        <!-- /ko -->
+        <ul class="shareSubList" data-bind="template: {name: 'shareList-template', foreach: $data.SubCategories}">
+        </ul>
+    </li>
+</script>
+
+<script type="text/html" id="shareSwitch-template">
+    <div class="sharecolor", data-bind="attr: {style: 'background-color: ' + (ShareLevel() == 2 ? '#E17009' : (ShareLevel() == 1 ? '#5C9CCC' : '#E8E8E8'))}">
+        <span data-bind="buttonsetTrigger: ShareLevel()">
+            <input type="radio" value="0" data-bind="attr: {name: uniqueName(), id: uniqueName() + 'Off'}, checked: ShareLevel" /><span><label data-bind="attrFor: uniqueName() + 'Off', click: function(){$data.shareLevelChanged(0);}" class="inlineLabel">Off</label></span>
+            <input type="radio" value="1" data-bind="attr: {name: uniqueName(), id: uniqueName() + 'Read'}, checked: ShareLevel" /><span><label data-bind="attrFor: uniqueName() + 'Read', click: function(){$data.shareLevelChanged(1);}" class="inlineLabel">View</label></span>
+            <input type="radio" value="2" data-bind="attr: {name: uniqueName(), id: uniqueName() + 'Write'}, checked: ShareLevel" /><span><label data-bind="attrFor: uniqueName() + 'Write', click: function(){$data.shareLevelChanged(2);}" class="inlineLabel">Edit</label></span>
+            <input type="hidden" data-bind="buttonSetWithCalculatedNameFinalItem: true" />
+        </span>
+        <label class="inlineLabel" data-bind="text: Name, attr: {style: 'font-weight: bold; color: ' + (ShareLevel() == 2 ?  'white' : (ShareLevel() == 1 ? 'white' : 'black'))}"></label>
+    </div>
+</script>
+
+
+
+    </div>
+
+    <div id="loadingOverlay" class="ui-widget-overlay" style="display: none;">
+        <div id="loadingBox">
+            <img src="../Images/largeicons/loading.gif" alt="loading" />
+        </div>
+    </div>
+    </div>
+
+        </div>
+    </div>
+    <div id="body" class="content-wrapper">
+            <noscript>
+                <div style="margin: 10px">
+                    <div><strong>Javascript is required to view this page.</strong></div>
+                    <div>Please enable Javascript in your browser and refresh the page.</div>
+                </div>
+            </noscript>
+        <div id="mainBody" class="javascript-required">
+            
+
+<div id="navHolder">
+    <div id="nav" class="logged-in">
+            
+            <ul>
+                <li>
+                    <a href="/Contacts/">
+                        <img src="../Images/smallicons/contacts.svg" class="navicon"/>
+                        <span>Contacts</span></a>
+                </li>
+                <li>
+                    <a href="/Calendar/">
+                        <img src="../Images/smallicons/calendar.svg" class="navicon"/>
+                        <span>Calendar</span></a>
+                </li>
+                <li>
+                    <a href="/Tasks/">
+                        <img src="../Images/smallicons/task.svg" class="navicon"/>
+                        <span>Tasks</span></a>
+                </li>
+                <li>More Soon...</li>
+            </ul>
+            
+    </div>
+    <div class="navtab">
+        <div class="navtab_text">Keepers</div>
+    </div>
+</div>
+
+<div id="main" class="logged-in">
+    <div style="line-height: 0; outline: none;" id="focusStart" tabindex="-1"></div>
+    
+
+
+<div id="content" data-bind="visible: !showLoading()">
+    <div id="CategoriesAccordion" class="category-accordion">
+        <h3>
+            <span class="searchbar">
+                <input type="hidden" value="-1" data-role="ID" />
+                <label for="search" class="overlabel">Search...</label>
+                <input id="search" type="text" autocomplete="off"
+                    data-bind="value: $root.searchBox, valueUpdate: 'afterkeyup'" tabindex="0" />
+            </span>
+        </h3>
+        <div>
+            <ul data-bind="template: {name: 'task_template', foreach: searchResultTasks}">
+            </ul>
+        </div>
+        <!-- ko template: {name: 'list_template', foreach: categories} -->
+
+        <!-- /ko -->
+    </div>
+
+    <div data-bind="visible: $root.fullWrite()">
+        <input type="button" data-show-popup="CreateTaskList" value="Create List" data-bind="click: function() {$root.setFocusListID(undefined)}" />
+    </div>
+</div>
+
+
+
+<script type="text/html" id="list_template">
+
+    <h3>
+        <input type="hidden" data-bind="value: ID()" data-role="ID" />
+        <a data-bind="text: Name() + (Write() ? '' : ' (View Only)'), attr: {style: ($data.OpenCount() == 0 && $data.DoneCount() > 0)? 'text-decoration: line-through;' : '', title: $data.OpenCount() + ' To Do, ' + $data.DoneCount() + ' Completed'}">
+        </a>
+    </h3>
+    <div>
+        <div data-bind="template: {name: 'list_template', foreach: $data.SubLists}, jqAccordion: accordionSetup">
+        </div>
+
+        <ul>
+            <!-- ko template: {name: 'task_template', foreach: OpenTasks} -->
+            <!-- /ko -->
+            <li>
+                <form style="display: inline;" data-bind="submit: $root.createTask">
+                    <input type="hidden" name="ListID" data-bind="value: ID()" />
+                    <input type="hidden" name="inlineCreation" value="true" />
+                    <input type="text" name="Name" class="clickInTextBox" value="Create Task" />
+                </form>
+            </li>
+        </ul>
+
+        <label class="editor-label" data-bind="visible: DoneTasks().length > 0">Completed:</label>
+        <a data-bind="click: function(){$root.deleteCompletedTasks($data)}, visible: DoneTasks().length > 0 && Write()"
+            style="font-size: small">delete all completed</a>
+        <ul data-bind="template: {name: 'task_template', foreach: DoneTasks}, visible: DoneTasks().length > 0">
+        </ul>
+
+        <span data-bind="visible: $root.fullWrite() || $data.Write()">
+            <input type="button" data-show-popup="CreateTask" value="Create Task" data-bind="click: function() {$root.setFocusListID($data.ID()); $root.resetCreateEventHolder();}" />
+            <input type="button" data-show-popup="CreateTaskList" value="Create Sub List" data-bind="click: function() {$root.setFocusListID($data.ID())}" />
+            <input type="button" value="Edit List" data-bind="click: function() {setHashParams([hashNamePopup, 'TaskListID'], ['EditTaskList', $data.ID()]);}" />
+        </span>
+        <input type="button" data-show-popup="CopyTaskList" value="Copy List" data-bind="click: function() {$root.setFocusListID($data.ID())}, visible: ($root.taskListsOrganizedWriteOnly().length > 0)" />
+    </div>
+</script>
+
+<script type="text/html" id="task_template">
+    <li><a style="padding-left: 5px; vertical-align: middle;">
+        <div data-bind="click: function(){setHashParams([hashNamePopup, 'TaskID'], ['EditTask', $data.ID()]);}"
+            style="vertical-align: middle;">
+            <input type="checkbox" data-bind="checked: $data.Done, enable: Write()" style="vertical-align: middle;" />
+            <span data-bind="text: Name, attr: {style: (Done() ? 'text-decoration: line-through;' : '') + ' vertical-align:middle;'}"
+                style="vertical-align: middle;"></span>
+            <span data-bind="if: DoneDateTime() == null && DueDate()" style="font-size: small;
+                vertical-align: middle;"><span data-bind=", attr: {style: (isDateInFuture(DueDate() + (DueTime() ? ' ' + DueTime() : '')) ? 'color: blue;' : 'color: red;') + ' vertical-align:middle;'}">
+                    due
+                    <label style="display: inline;" data-bind="attr: {title: getISODateString(DueDate() + ' ' + DueTime())}, text: (DueTime() ? (getPrettyDateTimeStringFromDateTimeString(DueDate() + ' ' + DueTime())) : getPrettyDateStringFromDateString(DueDate())), jqTimeago: !DueTime()">
+                    </label>
+                </span></span>
+            <span data-bind="if: DoneDateTime() != null">
+                <label style="display: inline; color: green; font-size: small; vertical-align: middle;"
+                    data-bind="attr: {title: DoneDateTime()}, text: getPrettyDateTimeStringFromISO(DoneDateTime()), jqTimeago: false">
+                </label>
+            </span>
+        </div>
+    </a>
+    </li>
+</script>
+
+<img src="../Images/largeicons/loading.gif" data-bind="visible: showLoading()" />
+
+<!-----------------------------------------------------------------------
+    Popups
+------------------------------------------------------------------------->
+
+<div id="createTaskPopup" data-popup="CreateTask" data-dialog-title="Create Task">
+    <form data-bind="submit: createTask, if: !$root.showLoading() && ($root.taskListsLoaded == undefined || $root.taskListsLoaded()) && $root.taskListsOrganizedWriteOnly().length > 0">
+<fieldset>
+    <legend>Task</legend>
+
+    <div data-bind="visible: $root.keeperID != 3">
+        <div class="editor-label">
+            List
+        </div>
+        <div class="editor-field">
+            <select id="newTask_List" name="ListID" data-bind="options: $root.taskListsOrganized, optionsText: 'SubName', optionsValue: 'ID', value: $root.focusListID"></select>
+            <input type="button" onclick="setHashParam(hashNamePopup, 'CreateTaskList');" value="Create List" />
+        </div>
+    </div>
+    <!-- ko with: createEventHolder -->
+    <div class="editor-field">
+        <label class="overlabel" for="txtNewTaskName">Name</label>
+        <input data-bind="value:&#32;Name" data-val="true" data-val-length="Name&#32;must&#32;be&#32;between&#32;1&#32;and&#32;100&#32;characters" data-val-length-max="100" data-val-length-min="1" data-val-required="The&#32;Name&#32;field&#32;is&#32;required." id="txtNewTaskName" name="Name" type="text" value="" />
+        <span class="field-validation-valid" data-valmsg-for="Name" data-valmsg-replace="true"></span>
+    </div>
+
+    <div class="editor-field">
+        <label class="overlabel" for="txtNewTaskDueDate">Due Date</label>
+        <input data-bind="jqDatePicker:&#32;{},&#32;value:&#32;StartDate" data-val="true" data-val-date="The&#32;field&#32;Due&#32;Date&#32;must&#32;be&#32;a&#32;date." id="txtNewTaskDueDate" name="DueDate" type="text" value="" />
+        <span class="field-validation-valid" data-valmsg-for="DueDate" data-valmsg-replace="true"></span>
+    </div>
+
+    <div class="editor-field" id="newTaskDueTimeField" data-bind="visible: StartDate()">
+        <label class="overlabel manualChange" for="newtasktime">Due Time (Optional)</label>
+        <input type="text" name="DueTime" id="newtasktime" data-bind="jqTimePicker: {value: DueTime}, value: DueTime"/>
+    </div>
+    <!-- /ko -->
+
+    <div class="editor-field">
+        <label class="overlabel" for="txtNewTaskNotes">Notes</label>
+        <textarea cols="20" id="txtNewTaskNotes" name="Notes" rows="2">
+</textarea>
+        <span class="field-validation-valid" data-valmsg-for="Notes" data-valmsg-replace="true"></span>
+    </div>
+
+    <p>
+        <input type="submit" value="Create" />
+        <input type="button" value="Cancel" class="close" />
+    </p>
+</fieldset>
+</form>
+
+<img src="../Images/largeicons/loading.gif" data-bind="visible: $root.taskListsLoaded != undefined && !$root.taskListsLoaded()" />
+
+<div data-bind="visible: ($root.taskListsLoaded == undefined || $root.taskListsLoaded()) && ($root.taskListsOrganized() == undefined || $root.taskListsOrganizedWriteOnly().length == 0)">
+    You must have at least one task list with write permission to create a task.<br />
+    <input type="button" data-show-popup="CreateTaskList" value="Create Task List" />
+</div>
+
+</div>
+
+<div id="editTaskPopup" data-popup="EditTask" data-dialog-title="Edit Task">
+    <form data-bind="submit: $root.saveEditingTask">
+<fieldset data-bind="with: $root.editingTask">
+    <legend>Task</legend>
+    <!-- ko if: Write() -->
+    <div>
+        <div class="editor-label">
+            List
+        </div>
+        <div class="editor-field">
+            <select id="editTask_List" name="ListID" data-bind="options: $root.taskListsOrganizedWriteOnly, optionsText: 'SubName', optionsValue: 'ID', value: $data.ListID"></select>
+        </div>
+    </div>
+
+    <div class="editor-field">
+        <label class="overlabel" for="edittaskname">Due Date (Optional)</label>
+        <input data-bind="value:&#32;$data.Name" data-val="true" data-val-length="Name&#32;must&#32;be&#32;between&#32;1&#32;and&#32;100&#32;characters" data-val-length-max="100" data-val-length-min="1" data-val-required="The&#32;Name&#32;field&#32;is&#32;required." id="edittaskname" name="Name" type="text" value="" />
+        <span class="field-validation-valid" data-valmsg-for="Name" data-valmsg-replace="true"></span>
+    </div>
+
+    <div class="editor-field">
+        <label class="overlabel" for="edittaskdate">Due Date</label>
+        <input data-bind="value:&#32;DueDate,&#32;jqDatePicker:&#32;{}" data-val="true" data-val-date="The&#32;field&#32;Due&#32;Date&#32;must&#32;be&#32;a&#32;date." id="edittaskdate" name="DueDate" type="text" value="" />
+        <span class="field-validation-valid" data-valmsg-for="DueDate" data-valmsg-replace="true"></span>
+    </div>
+
+    <div class="editor-field" data-bind="visible: DueDate()">
+        <label class="overlabel manualChange" for="edittasktime">Due Time (Optional)</label>
+        <input type="text" data-bind="jqTimePicker: {value: DueTime}, value: DueTime" id="edittasktime" />
+    </div>
+
+    <div class="editor-field">
+        <label class="overlabel" for="edittasknotes">Notes</label>
+        <textarea cols="20" data-bind="value:&#32;Notes" id="edittasknotes" name="Notes" rows="2">
+</textarea>
+        <span class="field-validation-valid" data-valmsg-for="Notes" data-valmsg-replace="true"></span>
+    </div>
+
+    <div class="editor-field" data-bind="visible: DoneDateTime() != null">
+        <label class="readonlylabel editor-label">Done At</label>
+        <label style="display: inline;" data-bind="text: getPrettyDateTimeStringFromISO(DoneDateTime())"></label>
+    </div>
+
+    <p>
+        <input type="submit" value="Save" />
+        <input type="button" class="close" value="Cancel" />
+        <input type="button" value="Delete" data-bind="click: function(){model.deleteTask($data);}" />
+    </p>
+
+    <!-- /ko -->
+
+
+    <!-- READ ONLY -->
+
+    <!-- ko if: !Write() -->
+
+    <div class="editor-field">
+        <label class="readonlylabel&#32;editor-label" for="Name">Name</label>
+        <label class="readonlycontent" data-bind="text:&#32;Name()" for="Name">Name</label>
+        <span class="field-validation-valid" data-valmsg-for="Name" data-valmsg-replace="true"></span>
+    </div>
+
+    <div class="editor-field" data-bind="visible: DueDate()">
+        <label class="readonlylabel&#32;editor-label" for="DueDate">Due Date</label>
+        <label class="readonlycontent" data-bind="text:&#32;DueDate()" for="DueDate">Due Date</label>
+        <span class="field-validation-valid" data-valmsg-for="DueDate" data-valmsg-replace="true"></span>
+    </div>
+
+    <div class="editor-field" data-bind="visible: DueTime()">
+        <label class="readonlylabel&#32;editor-label" for="DueDate">Due Date</label>
+        <label class="readonlylabel editor-label">Due Time</label>
+        <label class="readonlycontent" data-bind="text:&#32;DueDate()" for="DueDate">Due Date</label>
+        <span class="field-validation-valid" data-valmsg-for="DueDate" data-valmsg-replace="true"></span>
+    </div>
+
+    <div class="editor-field" data-bind="visible: DoneDateTime() != null">
+        <label class="readonlylabel editor-label">Done At</label>
+        <label style="display: inline;" data-bind="text: getPrettyDateTimeStringFromISO(DoneDateTime())"></label>
+    </div>
+
+    <div class="editor-field">
+        <label class="readonlylabel&#32;editor-label" for="Notes">Notes</label>
+        <label class="readonlycontent" data-bind="text:&#32;Notes()" for="Notes">Notes</label>
+        <span class="field-validation-valid" data-valmsg-for="Notes" data-valmsg-replace="true"></span>
+    </div>
+
+    <input type="button" class="close" value="OK" />
+
+
+    <!-- /ko -->
+</fieldset>
+</form>
+
+</div>
+
+<div id="createTaskListPopup" data-popup="CreateTaskList" data-dialog-title="Create Task List">
+    <form data-bind="submit: createTaskList">
+
+
+<fieldset>
+    <legend>TaskList</legend>
+
+    <div data-bind="visible: $root.keeperID != 3">
+        <div class="editor-label">
+            Parent List
+        </div>
+        <div class="editor-field">
+            <select id="newTaskList_ParentList" name="ParentListID" data-bind="options: $root.taskListsOrganizedWriteOnly, optionsText: 'SubName', optionsValue: 'ID', value: $root.focusListIDForListCreation, optionsCaption: 'None'"></select>
+        </div>
+    </div>
+
+    <div class="editor-field">
+        <label class="overlabel" for="txtNewTaskListName">Name</label>
+        <input data-val="true" data-val-length="Name&#32;must&#32;be&#32;between&#32;1&#32;and&#32;100&#32;characters" data-val-length-max="100" data-val-length-min="1" data-val-required="The&#32;Name&#32;field&#32;is&#32;required." id="txtNewTaskListName" name="Name" type="text" value="" />
+        <span class="field-validation-valid" data-valmsg-for="Name" data-valmsg-replace="true"></span>
+    </div>
+
+    <p>
+        <input type="submit" value="Create" />
+        <input type="button" value="Cancel" class="close" />
+    </p>
+</fieldset>
+</form>
+
+</div>
+
+<div id="editTaskListPopup" data-popup="EditTaskList" data-dialog-title="Edit Task List">
+    <form data-bind="submit: $root.saveEditingTaskList, with: $root.editingTaskList">
+    <fieldset data-bind="visible: Write()">
+        <legend>TaskList</legend>
+
+        <div class="editor-field">
+            <label class="overlabel" for="txtEditTaskListName">Name</label>
+            <input data-bind="value:&#32;Name" data-val="true" data-val-length="Name&#32;must&#32;be&#32;between&#32;1&#32;and&#32;100&#32;characters" data-val-length-max="100" data-val-length-min="1" data-val-required="The&#32;Name&#32;field&#32;is&#32;required." id="txtEditTaskListName" name="Name" type="text" value="" />
+            <span class="field-validation-valid" data-valmsg-for="Name" data-valmsg-replace="true"></span>
+        </div>
+
+        <p>
+            <input type="submit" value="Save" />
+            <input type="button" value="Cancel" class="close" />
+            <input type="button" value="Delete" data-bind="click: function(){$root.deleteTaskList($data)}" />
+        </p>
+    </fieldset>
+</form>
+
+</div>
+
+<div id="copyTaskListPopup" data-popup="CopyTaskList" data-dialog-title="Copy Task List">
+    <form data-bind="submit: copyTaskList, if: !$root.showLoading() && ($root.taskListsLoaded == undefined || $root.taskListsLoaded()) && $root.taskListsOrganizedWriteOnly().length > 0">
+<fieldset>
+    <legend>Task</legend>
+    <div></div>
+
+    <div class="editor-label">
+        Copy Tasks From List
+    </div>
+    <div class="editor-field">
+        <select id="copyFromList" name="fromListID" data-bind="options: $root.taskListsOrganized, optionsText: 'SubName', optionsValue: 'ID', value: $root.focusListID"></select>
+    </div>
+    <div class="editor-label">
+        To List
+    </div>
+    <div class="editor-field">
+        <select id="copyToList" name="toListID" data-bind="options: $root.taskListsOrganizedWriteOnly, optionsText: 'SubName', optionsValue: 'ID'"></select>
+    </div>
+    
+    <p>
+        <input type="submit" value="Copy" />
+        <input type="button" value="Cancel" class="close" />
+        <!--<input type="button" data-show-popup="CreateTaskList" value="Create Task List" />-->
+    </p>
+</fieldset>
+</form>
+
+<img src="../Images/largeicons/loading.gif" data-bind="visible: $root.taskListsLoaded != undefined && !$root.taskListsLoaded()" />
+
+<div data-bind="visible: ($root.taskListsLoaded == undefined || $root.taskListsLoaded()) && ($root.taskListsOrganized() == undefined || $root.taskListsOrganizedWriteOnly().length == 0)">
+    You must have at least one task list with write permission to perform a copy<br />
+    <input type="button" data-show-popup="CreateTaskList" value="Create Task List" />
+</div>
+
+</div>
+
+
+
+
+</div>
+
+        </div>
+    </div>
+    <div id="bodyFooter">
+        <div class="content-wrapper">
+            
+    
+
+        </div>
+    </div>
+    <footer>
+        <div class="content-wrapper">
+            <div class="float-left">
+                <p>&copy; 2012 - Keeper Corner, Inc.</p>
+                <a href="/Home/About">About</a>|<a href="/Home/Contact">Contact</a>
+            </div>
+            <div class="float-right">
+                <ul id="social">
+                    <li><a href="http://www.facebook.com/KeeperCorner" class="facebook image-link" target="_blank">
+                        Facebook</a></li>
+                    <li><a href="https://twitter.com/#!/KeeperCorner" class="twitter image-link" target="_blank">
+                        Twitter</a></li>
+                    <li>
+                        <iframe src="http://www.facebook.com/plugins/like.php?href=http%3A%2F%2Fwww.facebook.com%2FKeeperCorner&amp;send=false&amp;layout=button_count&amp;width=450&amp;show_faces=false&amp;action=like&amp;colorscheme=light&amp;font&amp;height=21"
+                            scrolling="no" frameborder="0" style="border: none; overflow: hidden; width: 45px;
+                            height: 21px;"
+                            allowtransparency="true"></iframe>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>
